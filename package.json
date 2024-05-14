@@ -1,12 +1,15 @@
 {
   "name": "bulletproof-react-tanstack",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
     "build": "tsc && vite build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "dev": "vite",
+    "format": "prettier -uw --cache .",
+    "format:check": "prettier -uc --cache .",
+    "lint": "eslint . --max-warnings 0 --cache --cache-location node_modules/.cache/.eslintcache",
+    "lint:fix": "eslint . --fix --cache --cache-location node_modules/.cache/.eslintcache",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -20,8 +23,17 @@
     "@typescript-eslint/parser": "^7.9.0",
     "@vitejs/plugin-react-swc": "^3.6.0",
     "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.2",
-    "eslint-plugin-react-refresh": "^0.4.7",
+    "eslint-plugin-simple-import-sort": "^12.1.0",
+    "eslint-plugin-sort-keys-fix": "^1.1.2",
+    "eslint-plugin-tailwindcss": "^3.15.1",
+    "eslint-plugin-unicorn": "^53.0.0",
+    "prettier": "^3.2.5",
+    "prettier-plugin-packagejson": "^2.5.0",
     "typescript": "^5.4.5",
     "vite": "^5.2.11"
   }
