@@ -7,7 +7,7 @@ import { App } from '@/app';
 import { Providers } from '@/providers';
 import { enableMocking } from '@/tests/mocks';
 
-await enableMocking().then(() => {
+enableMocking().then(() => {
   ReactDOM.createRoot(document.querySelector('#app')!).render(
     <React.StrictMode>
       <Providers>
