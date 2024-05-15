@@ -1,3 +1,6 @@
+/// <reference types="vitest" />
+/// <reference types="vite/client" />
+
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -13,5 +16,14 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, 'src'),
     },
+  },
+  test: {
+    coverage: {
+      include: ['src/**'],
+    },
+    environment: 'jsdom',
+    exclude: ['**/node_modules/**', '**/e2e/**'],
+    globals: true,
+    setupFiles: './src/tests/setup-tests.ts',
   },
 });

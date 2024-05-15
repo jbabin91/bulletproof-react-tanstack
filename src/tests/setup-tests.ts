@@ -1,0 +1,27 @@
+import '@testing-library/jest-dom/vitest';
+
+import { initializeDb, resetDb } from './mocks/db';
+import { server } from './mocks/server';
+
+vi.mock('zustand');
+
+beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
+afterAll(() => server.close());
+beforeEach(() => {
+  const resizeObserverMock = vi.fn(() => ({
+    disconnect: vi.fn(),
+    observe: vi.fn(),
+    unobserve: vi.fn(),
+  }));
+
+  vi.stubGlobal('ResizeObserver', resizeObserverMock);
+
+  window.btoa = (str: string) => Buffer.from(str, 'binary').toString('base64');
+  window.atob = (str: string) => Buffer.from(str, 'base64').toString('binary');
+
+  initializeDb();
+});
+afterEach(() => {
+  server.resetHandlers();
+  resetDb();
+});

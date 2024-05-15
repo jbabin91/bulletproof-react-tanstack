@@ -12,6 +12,7 @@
     "lint:fix": "eslint . --fix --cache --cache-location node_modules/.cache/.eslintcache",
     "prepare": "is-ci || husky",
     "preview": "vite preview",
+    "test": "vitest",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -52,6 +53,8 @@
     "react": "^18.3.1",
     "react-day-picker": "^8.10.1",
     "react-dom": "^18.3.1",
+    "react-error-boundary": "^4.0.13",
+    "react-helmet-async": "^2.0.5",
     "react-hook-form": "^7.51.4",
     "react-resizable-panels": "^2.0.19",
     "sonner": "^1.4.41",
@@ -63,6 +66,10 @@
   "devDependencies": {
     "@mswjs/data": "^0.16.1",
     "@ngneat/falso": "^7.2.0",
+    "@tailwindcss/typography": "^0.5.13",
+    "@testing-library/jest-dom": "^6.4.5",
+    "@testing-library/react": "^15.0.7",
+    "@testing-library/user-event": "^14.5.2",
     "@types/eslint": "^8.56.10",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^20.12.12",
@@ -76,15 +83,19 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-playwright": "^1.6.1",
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-simple-import-sort": "^12.1.0",
     "eslint-plugin-sort-keys-fix": "^1.1.2",
     "eslint-plugin-tailwindcss": "^3.15.1",
+    "eslint-plugin-testing-library": "^6.2.2",
     "eslint-plugin-unicorn": "^53.0.0",
+    "eslint-plugin-vitest": "^0.5.4",
     "husky": "^9.0.11",
     "is-ci": "^3.0.1",
     "js-cookie": "^3.0.5",
+    "jsdom": "^24.0.0",
     "lint-staged": "^15.2.2",
     "msw": "^2.3.0",
     "nanoid": "^5.0.7",
@@ -93,7 +104,8 @@
     "prettier-plugin-packagejson": "^2.5.0",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.4.5",
-    "vite": "^5.2.11"
+    "vite": "^5.2.11",
+    "vitest": "^1.6.0"
   },
   "msw": {
     "workerDirectory": [
