@@ -71,10 +71,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground m-0 flex min-w-[320px] min-h-screen place-items-center;
-  }
-  #app {
-    @apply max-w-screen-xl mx-auto my-0 p-2 text-center;
+    @apply bg-background text-foreground;
   }
 }
 

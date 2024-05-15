@@ -1,7 +1,7 @@
 module.exports = {
   env: { browser: true, es2022: true, node: true },
   extends: ['eslint:recommended', 'plugin:unicorn/recommended', 'prettier'],
-  ignorePatterns: ['dist', 'mockServiceWorker.js'],
+  ignorePatterns: ['dist', '*.gen.ts', 'mockServiceWorker.js'],
   overrides: [
     {
       extends: [

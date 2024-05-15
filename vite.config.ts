@@ -4,6 +4,7 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { TanStackRouterVite } from '@tanstack/router-vite-plugin';
 import react from '@vitejs/plugin-react-swc';
 import { defineConfig } from 'vite';
 
@@ -51,11 +52,17 @@ export default defineConfig({
             '@radix-ui/react-tooltip',
           ],
           react: ['react', 'react-dom'],
+          tanstack: [
+            '@tanstack/react-router',
+            '@tanstack/router-devtools',
+            '@tanstack/react-query',
+            '@tanstack/react-query-devtools',
+          ],
         },
       },
     },
   },
-  plugins: [react()],
+  plugins: [react(), TanStackRouterVite()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
