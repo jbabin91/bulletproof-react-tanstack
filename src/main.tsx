@@ -1,12 +1,15 @@
-import '@/index.css';
+import '@/styles/globals.css';
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import { App } from '@/App';
+import { Providers } from '@/providers';
 
-ReactDOM.createRoot(document.querySelector('#root')!).render(
+ReactDOM.createRoot(document.querySelector('#app')!).render(
   <React.StrictMode>
-    <App />
+    <Providers>
+      <App />
+    </Providers>
   </React.StrictMode>,
 );

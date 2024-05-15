@@ -60,6 +60,7 @@ module.exports = {
             shorthandLast: false,
           },
         ],
+        'react/no-unknown-property': 'off',
         'react/prop-types': 'off',
         'tailwindcss/no-custom-classname': 'off',
       },
