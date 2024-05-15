@@ -1,7 +1,7 @@
 module.exports = {
   env: { browser: true, es2022: true, node: true },
   extends: ['eslint:recommended', 'plugin:unicorn/recommended', 'prettier'],
-  ignorePatterns: ['dist'],
+  ignorePatterns: ['dist', 'mockServiceWorker.js'],
   overrides: [
     {
       extends: [
@@ -23,6 +23,7 @@ module.exports = {
           'error',
           { fixStyle: 'inline-type-imports', prefer: 'type-imports' },
         ],
+        '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/no-floating-promises': 'off',
         '@typescript-eslint/no-misused-promises': [
           'error',
