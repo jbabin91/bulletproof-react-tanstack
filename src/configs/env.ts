@@ -7,10 +7,15 @@ export const env = createEnv({
       .string()
       .url()
       .default('https://api.bulletproofapp.com'),
-    VITE_APP_ENABLE_API_MOCKING: z.string().default('false'),
+    VITE_APP_ENABLE_API_MOCKING: z
+      .preprocess((val) => val === 'true', z.boolean())
+      .default(false),
   },
   clientPrefix: 'VITE_APP_',
   emptyStringAsUndefined: true,
-  runtimeEnv: import.meta.env,
+  runtimeEnv: {
+    VITE_APP_API_URL: import.meta.env.VITE_APP_API_URL,
+    VITE_APP_ENABLE_API_MOCKING: import.meta.env.VITE_APP_ENABLE_API_MOCKING,
+  },
   server: {},
 });
