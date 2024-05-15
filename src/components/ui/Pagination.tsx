@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { type ButtonProps, buttonVariants } from '@/components/ui/Button';
-import { cn } from '@/libs/utils';
+import { cn } from '@/utils/cn';
 
 import { Icons } from '../Icons';
 
