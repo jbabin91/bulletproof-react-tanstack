@@ -5,7 +5,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { ErrorFallback } from '@/components/ErrorFallback';
 import { FullPageSpinner } from '@/components/FullPageSpinner';
 import { Toaster } from '@/components/ui';
-import { AuthLoader } from '@/modules/auth';
+import { AuthLoader, AuthProvider } from '@/modules/auth';
 
 import { TanStackQueryProvider } from './TanStackQueryProvider';
 import { TanStackRouterProvider } from './TanStackRouterProvider';
@@ -19,7 +19,9 @@ export function Providers() {
           <HelmetProvider>
             <TanStackQueryProvider>
               <AuthLoader renderLoading={FullPageSpinner}>
-                <TanStackRouterProvider />
+                <AuthProvider>
+                  <TanStackRouterProvider />
+                </AuthProvider>
               </AuthLoader>
             </TanStackQueryProvider>
             <Toaster />

@@ -1,12 +1,19 @@
-import { createRootRoute, Link, Outlet } from '@tanstack/react-router';
+import {
+  createRootRouteWithContext,
+  Link,
+  Outlet,
+} from '@tanstack/react-router';
 
 import { ModeToggle } from '@/components/ModeToggle';
 import {
   TanStackQueryDevtools,
   TanStackRouterDevtools,
 } from '@/components/utils';
+import { type AuthContext } from '@/modules/auth';
 
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext<{
+  auth: AuthContext;
+}>()({
   component: RootLayout,
 });
 

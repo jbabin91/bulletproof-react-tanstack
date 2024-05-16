@@ -1,3 +1,13 @@
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from 'react';
+
+import { type User } from '@/modules/users';
+
 import { getUser } from '../api/get-user';
 import { type LoginInput, loginWithEmailAndPassword } from '../api/login';
 import { logout } from '../api/logout';
@@ -41,5 +51,63 @@ const authConfig = {
   userFn,
 };
 
-export const { useUser, useLogin, useLogout, useRegister, AuthLoader } =
+const { useUser, useLogin, useLogout, useRegister, AuthLoader } =
   configureAuth(authConfig);
+
+export { AuthLoader, useUser };
+
+export type AuthContext = {
+  isAuthenticated: boolean;
+  login: (values: LoginInput) => void;
+  logout: () => void;
+  register: (values: RegisterInput) => void;
+  user: User | null;
+};
+
+const AuthContext = createContext<AuthContext | null>(null);
+
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [user, setUser] = useState<User | null>(null);
+  const isAuthenticated = !!user;
+  const logoutMutation = useLogout();
+  const loginMutation = useLogin();
+  const registerMutation = useRegister();
+
+  const logout = useCallback(() => {
+    logoutMutation.mutate({});
+    setUser(null);
+  }, [logoutMutation]);
+
+  const login = useCallback(
+    (values: LoginInput) => {
+      loginMutation.mutate(values);
+    },
+    [loginMutation],
+  );
+
+  const register = useCallback(
+    (values: RegisterInput) => {
+      registerMutation.mutate(values);
+    },
+    [registerMutation],
+  );
+
+  const value = useMemo(
+    () => ({
+      isAuthenticated,
+      login,
+      logout,
+      register,
+      user,
+    }),
+    [isAuthenticated, login, logout, register, user],
+  );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}
+
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (!context) throw new Error('useAuth must be used within an AuthProvider');
+  return context;
+}
