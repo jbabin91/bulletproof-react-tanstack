@@ -10,7 +10,7 @@ export const Route = createRootRoute({
 function RootLayout() {
   return (
     <>
-      <div className="mx-auto flex max-w-screen-xl justify-between p-2">
+      <div className="mx-auto flex min-w-min max-w-screen-xl justify-between p-2">
         <div className="flex gap-2 p-2">
           <Link className="[&.active]:font-bold" to="/">
             Home
@@ -22,7 +22,7 @@ function RootLayout() {
         <ModeToggle />
       </div>
       <hr />
-      <main className="mx-auto max-w-screen-lg">
+      <main className="mx-auto min-w-min max-w-screen-lg">
         <Outlet />
       </main>
       <TanStackRouterDevtools />
