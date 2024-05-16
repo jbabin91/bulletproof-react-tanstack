@@ -12,7 +12,16 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as AboutImport } from './routes/about'
+import { Route as AuthRouteImport } from './routes/_auth/route'
+import { Route as AppRouteImport } from './routes/_app/route'
 import { Route as IndexImport } from './routes/index'
+import { Route as AuthRegisterImport } from './routes/_auth/register'
+import { Route as AuthLoginImport } from './routes/_auth/login'
+import { Route as AppUsersImport } from './routes/_app/users'
+import { Route as AppProfileImport } from './routes/_app/profile'
+import { Route as AppDiscussionsImport } from './routes/_app/discussions'
+import { Route as AppDashboardImport } from './routes/_app/dashboard'
+import { Route as AppDiscussionsDiscussionIdImport } from './routes/_app/discussions.$discussionId'
 
 // Create/Update Routes
 
@@ -21,10 +30,57 @@ const AboutRoute = AboutImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AuthRouteRoute = AuthRouteImport.update({
+  id: '/_auth',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AppRouteRoute = AppRouteImport.update({
+  id: '/_app',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const IndexRoute = IndexImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any)
+
+const AuthRegisterRoute = AuthRegisterImport.update({
+  path: '/register',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+
+const AuthLoginRoute = AuthLoginImport.update({
+  path: '/login',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+
+const AppUsersRoute = AppUsersImport.update({
+  path: '/users',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+
+const AppProfileRoute = AppProfileImport.update({
+  path: '/profile',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+
+const AppDiscussionsRoute = AppDiscussionsImport.update({
+  path: '/discussions',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+
+const AppDashboardRoute = AppDashboardImport.update({
+  path: '/dashboard',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+
+const AppDiscussionsDiscussionIdRoute = AppDiscussionsDiscussionIdImport.update(
+  {
+    path: '/$discussionId',
+    getParentRoute: () => AppDiscussionsRoute,
+  } as any,
+)
 
 // Populate the FileRoutesByPath interface
 
@@ -37,6 +93,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRoute
+    }
+    '/_auth': {
+      id: '/_auth'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRoute
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -44,11 +114,75 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutImport
       parentRoute: typeof rootRoute
     }
+    '/_app/dashboard': {
+      id: '/_app/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AppDashboardImport
+      parentRoute: typeof AppRouteImport
+    }
+    '/_app/discussions': {
+      id: '/_app/discussions'
+      path: '/discussions'
+      fullPath: '/discussions'
+      preLoaderRoute: typeof AppDiscussionsImport
+      parentRoute: typeof AppRouteImport
+    }
+    '/_app/profile': {
+      id: '/_app/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AppProfileImport
+      parentRoute: typeof AppRouteImport
+    }
+    '/_app/users': {
+      id: '/_app/users'
+      path: '/users'
+      fullPath: '/users'
+      preLoaderRoute: typeof AppUsersImport
+      parentRoute: typeof AppRouteImport
+    }
+    '/_auth/login': {
+      id: '/_auth/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof AuthLoginImport
+      parentRoute: typeof AuthRouteImport
+    }
+    '/_auth/register': {
+      id: '/_auth/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof AuthRegisterImport
+      parentRoute: typeof AuthRouteImport
+    }
+    '/_app/discussions/$discussionId': {
+      id: '/_app/discussions/$discussionId'
+      path: '/$discussionId'
+      fullPath: '/discussions/$discussionId'
+      preLoaderRoute: typeof AppDiscussionsDiscussionIdImport
+      parentRoute: typeof AppDiscussionsImport
+    }
   }
 }
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren({ IndexRoute, AboutRoute })
+export const routeTree = rootRoute.addChildren({
+  IndexRoute,
+  AppRouteRoute: AppRouteRoute.addChildren({
+    AppDashboardRoute,
+    AppDiscussionsRoute: AppDiscussionsRoute.addChildren({
+      AppDiscussionsDiscussionIdRoute,
+    }),
+    AppProfileRoute,
+    AppUsersRoute,
+  }),
+  AuthRouteRoute: AuthRouteRoute.addChildren({
+    AuthLoginRoute,
+    AuthRegisterRoute,
+  }),
+  AboutRoute,
+})
 
 /* prettier-ignore-end */
