@@ -15,7 +15,7 @@ import { db } from './mocks/db';
 import { AUTH_COOKIE, authenticate, hash } from './mocks/utils';
 
 export const createUser = async (userProperties?: any) => {
-  const user = generateUser(userProperties);
+  const user = generateUser(userProperties) as any;
   await Promise.resolve(
     db.user.create({ ...user, password: hash(user.password) }),
   );
@@ -24,8 +24,8 @@ export const createUser = async (userProperties?: any) => {
 
 export const createDiscussion = async (discussionProperties?: any) => {
   const discussion = generateDiscussion(discussionProperties);
-  const response = await Promise.resolve(db.discussion.create(discussion));
-  return response;
+  const res = await Promise.resolve(db.discussion.create(discussion));
+  return res;
 };
 
 export const loginAsUser = async (user: any) => {
@@ -75,3 +75,7 @@ export const renderApp = async (
 
   return returnValue;
 };
+
+export * from '@testing-library/react';
+export { render as rtlRender } from '@testing-library/react';
+export { default as userEvent } from '@testing-library/user-event';

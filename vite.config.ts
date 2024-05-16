@@ -63,6 +63,9 @@ export default defineConfig({
     },
   },
   plugins: [react(), TanStackRouterVite()],
+  preview: {
+    port: 5173,
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),

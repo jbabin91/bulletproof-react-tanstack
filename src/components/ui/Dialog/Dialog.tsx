@@ -3,7 +3,7 @@ import * as React from 'react';
 
 import { cn } from '@/utils/cn';
 
-import { Icons } from '../Icons';
+import { Icons } from '../../Icons';
 
 const Dialog = DialogPrimitive.Root;
 

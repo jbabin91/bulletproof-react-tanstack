@@ -74,6 +74,15 @@ module.exports = {
         react: { version: 'detect' },
       },
     },
+    {
+      extends: [
+        'plugin:testing-library/react',
+        'plugin:jest-dom/recommended',
+        'plugin:vitest/legacy-recommended',
+      ],
+      files: ['*.js', '*.jsx', '*.ts', '*.tsx'],
+      rules: {},
+    },
   ],
   plugins: ['import', 'simple-import-sort', 'sort-keys-fix'],
   reportUnusedDisableDirectives: true,
