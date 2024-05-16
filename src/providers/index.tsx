@@ -3,9 +3,12 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { HelmetProvider } from 'react-helmet-async';
 
 import { ErrorFallback } from '@/components/ErrorFallback';
+import { FullPageSpinner } from '@/components/FullPageSpinner';
 import { Toaster } from '@/components/ui';
+import { AuthLoader } from '@/modules/auth';
 
-import { TanStackProviders } from './TanStackProviders';
+import { TanStackQueryProvider } from './TanStackQueryProvider';
+import { TanStackRouterProvider } from './TanStackRouterProvider';
 import { ThemeProvider } from './ThemeProvider';
 
 export function Providers() {
@@ -14,7 +17,11 @@ export function Providers() {
       <ThemeProvider>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <HelmetProvider>
-            <TanStackProviders />
+            <TanStackQueryProvider>
+              <AuthLoader renderLoading={FullPageSpinner}>
+                <TanStackRouterProvider />
+              </AuthLoader>
+            </TanStackQueryProvider>
             <Toaster />
           </HelmetProvider>
         </ErrorBoundary>

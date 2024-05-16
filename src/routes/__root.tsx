@@ -1,7 +1,10 @@
 import { createRootRoute, Link, Outlet } from '@tanstack/react-router';
 
 import { ModeToggle } from '@/components/ModeToggle';
-import { TanStackRouterDevtools } from '@/components/utils';
+import {
+  TanStackQueryDevtools,
+  TanStackRouterDevtools,
+} from '@/components/utils';
 
 export const Route = createRootRoute({
   component: RootLayout,
@@ -26,6 +29,7 @@ function RootLayout() {
         <Outlet />
       </main>
       <TanStackRouterDevtools />
+      <TanStackQueryDevtools />
     </>
   );
 }
