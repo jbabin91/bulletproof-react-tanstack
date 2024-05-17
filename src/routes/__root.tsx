@@ -27,6 +27,12 @@ function RootLayout() {
           </Link>{' '}
           <Link className="[&.active]:font-bold" to="/about">
             About
+          </Link>{' '}
+          <Link className="[&.active]:font-bold" to="/login">
+            Login
+          </Link>{' '}
+          <Link className="[&.active]:font-bold" to="/register">
+            Register
           </Link>
         </div>
         <ModeToggle />
