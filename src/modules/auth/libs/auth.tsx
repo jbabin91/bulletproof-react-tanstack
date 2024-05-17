@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useMemo } from 'react';
+import { createContext, useContext, useMemo } from 'react';
 
 import { getUser } from '../api/get-user';
 import { type LoginInput, loginWithEmailAndPassword } from '../api/login';
@@ -50,9 +50,9 @@ export { AuthLoader, useUser };
 
 export type AuthContext = {
   isAuthenticated: boolean;
-  login: (values: LoginInput) => void;
-  logout: () => void;
-  register: (values: RegisterInput) => void;
+  useLogin: typeof useLogin;
+  useLogout: typeof useLogout;
+  useRegister: typeof useRegister;
   user: AuthUser | undefined;
 };
 
@@ -61,37 +61,19 @@ const AuthContext = createContext<AuthContext | null>(null);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const { data: user } = useUser();
   const isAuthenticated = !!user;
-  const logoutMutation = useLogout();
-  const loginMutation = useLogin();
-  const registerMutation = useRegister();
 
-  const logout = useCallback(() => {
-    logoutMutation.mutate({});
-  }, [logoutMutation]);
-
-  const login = useCallback(
-    (values: LoginInput) => {
-      loginMutation.mutate(values);
-    },
-    [loginMutation],
-  );
-
-  const register = useCallback(
-    (values: RegisterInput) => {
-      registerMutation.mutate(values);
-    },
-    [registerMutation],
-  );
+  // console.log('isAuthenticated', isAuthenticated);
+  // console.log('user', user);
 
   const value = useMemo(
     () => ({
       isAuthenticated,
-      login,
-      logout,
-      register,
+      useLogin,
+      useLogout,
+      useRegister,
       user,
     }),
-    [isAuthenticated, login, logout, register, user],
+    [isAuthenticated, user],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

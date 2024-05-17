@@ -1,10 +1,5 @@
-import {
-  createRootRouteWithContext,
-  Link,
-  Outlet,
-} from '@tanstack/react-router';
+import { createRootRouteWithContext, Outlet } from '@tanstack/react-router';
 
-import { ModeToggle } from '@/components/ModeToggle';
 import {
   TanStackQueryDevtools,
   TanStackRouterDevtools,
@@ -20,27 +15,7 @@ export const Route = createRootRouteWithContext<{
 function RootLayout() {
   return (
     <>
-      <div className="mx-auto flex min-w-min max-w-screen-xl justify-between p-2">
-        <div className="flex gap-2 p-2">
-          <Link className="[&.active]:font-bold" to="/">
-            Home
-          </Link>{' '}
-          <Link className="[&.active]:font-bold" to="/about">
-            About
-          </Link>{' '}
-          <Link className="[&.active]:font-bold" to="/login">
-            Login
-          </Link>{' '}
-          <Link className="[&.active]:font-bold" to="/register">
-            Register
-          </Link>
-        </div>
-        <ModeToggle />
-      </div>
-      <hr />
-      <main className="mx-auto min-w-min max-w-screen-lg">
-        <Outlet />
-      </main>
+      <Outlet />
       <TanStackRouterDevtools />
       <TanStackQueryDevtools />
     </>

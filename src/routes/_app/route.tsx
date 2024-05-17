@@ -10,6 +10,7 @@ export const Route = createFileRoute('/_app')({
         to: '/login',
       });
     }
+    // console.log(context.auth.user);
   },
   component: AppLayout,
 });
