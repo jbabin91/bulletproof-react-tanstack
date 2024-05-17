@@ -1,12 +1,4 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-} from 'react';
-
-import { type User } from '@/modules/users';
+import { createContext, useCallback, useContext, useMemo } from 'react';
 
 import { getUser } from '../api/get-user';
 import { type LoginInput, loginWithEmailAndPassword } from '../api/login';
@@ -15,7 +7,7 @@ import {
   type RegisterInput,
   registerWithEmailAndPassword,
 } from '../api/register';
-import { type UserResponse } from '../types';
+import { type AuthUser, type UserResponse } from '../types';
 import { configureAuth } from './react-query-auth';
 
 function handleUserResponse(data: UserResponse) {
@@ -61,13 +53,13 @@ export type AuthContext = {
   login: (values: LoginInput) => void;
   logout: () => void;
   register: (values: RegisterInput) => void;
-  user: User | null;
+  user: AuthUser | undefined;
 };
 
 const AuthContext = createContext<AuthContext | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const { data: user } = useUser();
   const isAuthenticated = !!user;
   const logoutMutation = useLogout();
   const loginMutation = useLogin();
@@ -75,7 +67,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = useCallback(() => {
     logoutMutation.mutate({});
-    setUser(null);
   }, [logoutMutation]);
 
   const login = useCallback(
