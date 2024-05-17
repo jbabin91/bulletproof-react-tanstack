@@ -1,5 +1,16 @@
 import { createFileRoute } from '@tanstack/react-router';
 
+import { Head } from '@/components/seo';
+
 export const Route = createFileRoute('/_app/users')({
-  component: () => <div>Hello /_app/users!</div>,
+  component: Users,
 });
+
+function Users() {
+  return (
+    <>
+      <Head title="Users" />
+      <div>Hello /_app/users!</div>
+    </>
+  );
+}

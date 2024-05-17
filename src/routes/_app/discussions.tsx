@@ -1,14 +1,17 @@
 import { createFileRoute, Outlet } from '@tanstack/react-router';
 
+import { Head } from '@/components/seo';
+
 export const Route = createFileRoute('/_app/discussions')({
   component: Discussions,
 });
 
 function Discussions() {
   return (
-    <div>
+    <>
+      <Head title="Discussions" />
       <div>Hello /_app/discussions!</div>
       <Outlet />
-    </div>
+    </>
   );
 }

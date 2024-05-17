@@ -1,11 +1,18 @@
-import { createFileRoute, Link, useRouter } from '@tanstack/react-router';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { createFileRoute, useRouter } from '@tanstack/react-router';
 import { useLayoutEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import reactLogo from '@/assets/react.svg';
 import { Head } from '@/components/seo';
 import {
   Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
   Form,
   FormControl,
   FormField,
@@ -24,6 +31,8 @@ import {
 import { registerInputSchema } from '@/modules/auth';
 import { useTeams } from '@/modules/teams';
 
+const fallback = '/dashboard';
+
 export const Route = createFileRoute('/_auth/register')({
   component: Register,
   validateSearch: z.object({
@@ -36,11 +45,14 @@ function Register() {
   const { auth, isAuthenticated } = Route.useRouteContext({
     select: ({ auth }) => ({ auth, isAuthenticated: auth.isAuthenticated }),
   });
-  const [chooseTeam, setChooseTeam] = useState(false);
   const search = Route.useSearch();
-  const registering = auth.useRegister({
-    onSuccess: () => {
-      router.history.push('/dashboard');
+  const navigate = Route.useNavigate();
+  const registering = auth.useRegister();
+  const [chooseTeam, setChooseTeam] = useState(false);
+
+  const teamsQuery = useTeams({
+    queryConfig: {
+      enabled: chooseTeam,
     },
   });
 
@@ -50,168 +62,173 @@ function Register() {
     }
   }, [isAuthenticated, router.history, search.redirect]);
 
-  const teamsQuery = useTeams({
-    queryConfig: {
-      enabled: chooseTeam,
+  const form = useForm<z.infer<typeof registerInputSchema>>({
+    defaultValues: {
+      email: '',
+      firstName: '',
+      lastName: '',
+      password: '',
+      teamId: '',
+      teamName: '',
     },
+    resolver: zodResolver(registerInputSchema),
+    shouldUnregister: true,
   });
+
+  async function handleRegister(values: z.infer<typeof registerInputSchema>) {
+    console.log(values);
+    registering.mutate(values);
+    await router.invalidate();
+    await navigate({ to: search.redirect ?? fallback });
+  }
 
   return (
     <>
-      <Head description="Register your account" title="Register" />
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="flex justify-center">
-          <Link to="/">
-            <img alt="Workflow" className="size-12 w-auto" src={reactLogo} />
-          </Link>
-        </div>
-        <h1 className="mt-3 text-center text-3xl font-extrabold">
-          Register your account
-        </h1>
-      </div>
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="px-4 py-8 shadow sm:rounded-lg sm:px-10">
-          <div>
-            <Form
-              options={{
-                shouldUnregister: true,
-              }}
-              schema={registerInputSchema}
-              onSubmit={(values) => {
-                registering.mutate(values);
-                router.invalidate();
-              }}
-            >
-              {(form) => (
-                <>
-                  <FormField
-                    control={form.control}
-                    name="firstName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>First Name</FormLabel>
+      <Head description="Register page" title="Register" />
+      <Card className="w-full max-w-sm">
+        <CardHeader>
+          <CardTitle className="text-2xl">Register</CardTitle>
+          <CardDescription>
+            Enter your information below to register to your account.
+          </CardDescription>
+        </CardHeader>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(handleRegister)}>
+            <CardContent className="grid gap-4">
+              <FormField
+                control={form.control}
+                name="firstName"
+                render={({ field }) => (
+                  <FormItem className="grid gap-2">
+                    <FormLabel>First Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="John" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="lastName"
+                render={({ field }) => (
+                  <FormItem className="grid gap-2">
+                    <FormLabel>Last Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Doe" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem className="grid gap-2">
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="m@example.com"
+                        type="email"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem className="grid gap-2">
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input type="password" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="flex items-center space-x-2">
+                <Switch
+                  checked={chooseTeam}
+                  id="choose-team"
+                  onCheckedChange={(value) => {
+                    setChooseTeam(value);
+                    form.setValue('teamId', '');
+                    form.setValue('teamName', '');
+                  }}
+                />
+                <Label htmlFor="choose-team">Join Existing Team</Label>
+              </div>
+              {chooseTeam && teamsQuery.data ? (
+                <FormField
+                  control={form.control}
+                  name="teamId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Team</FormLabel>
+                      <Select onValueChange={field.onChange}>
                         <FormControl>
-                          <Input placeholder="John" type="text" {...field} />
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a team" />
+                          </SelectTrigger>
                         </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="lastName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Last Name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Doe" type="text" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="john.doe@example.com"
-                            type="email"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Password</FormLabel>
-                        <FormControl>
-                          <Input type="password" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <div className="flex items-center space-x-2">
-                    <Switch
-                      checked={chooseTeam}
-                      id="choose-team"
-                      onCheckedChange={setChooseTeam}
-                    />
-                    <Label htmlFor="choose-team">Join Existing Team</Label>
-                  </div>
-
-                  {chooseTeam && teamsQuery.data ? (
-                    <FormField
-                      control={form.control}
-                      name="teamId"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Team</FormLabel>
-                          <Select onValueChange={field.onChange}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select a team" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {teamsQuery?.data.length > 0 ? (
-                                teamsQuery?.data?.map((team) => (
-                                  <SelectItem key={team.id} value={team.id}>
-                                    {team.name}
-                                  </SelectItem>
-                                ))
-                              ) : (
-                                <SelectItem value="0">No Options</SelectItem>
-                              )}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  ) : (
-                    <FormField
-                      control={form.control}
-                      name="teamName"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Team Name</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="ACME Inc."
-                              type="text"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        <SelectContent>
+                          {teamsQuery?.data.length > 0 ? (
+                            teamsQuery?.data?.map((team) => (
+                              <SelectItem key={team.id} value={team.id}>
+                                {team.name}
+                              </SelectItem>
+                            ))
+                          ) : (
+                            <SelectItem value="0">No Options</SelectItem>
+                          )}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
                   )}
-                  <div className="flex justify-between">
-                    <Button isLoading={registering.isPending}>Register</Button>
-                    <Button variant="link">
-                      <Link className="text-sm font-medium" to="/login">
-                        Log In
-                      </Link>
-                    </Button>
-                  </div>
-                </>
+                />
+              ) : (
+                <FormField
+                  control={form.control}
+                  name="teamName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Team Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="ACME Inc." type="text" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               )}
-            </Form>
-          </div>
-        </div>
-      </div>
+            </CardContent>
+            <CardFooter className="flex flex-col gap-4">
+              <Button
+                className="w-full"
+                isLoading={registering.isPending}
+                type="submit"
+              >
+                Sign up
+              </Button>
+              <div className="text-center text-sm">
+                Already have an account?{' '}
+                <Button
+                  variant="link"
+                  onClick={() => navigate({ to: '/login' })}
+                >
+                  Sign in
+                </Button>
+              </div>
+            </CardFooter>
+          </form>
+        </Form>
+      </Card>
     </>
   );
 }

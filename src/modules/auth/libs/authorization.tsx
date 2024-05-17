@@ -44,7 +44,7 @@ export function useAuthorization() {
     [user.data],
   );
 
-  return { checkAccess, role: user.data.role };
+  return { checkAccess, role: user?.data?.role };
 }
 
 type AuthorizationProps = {

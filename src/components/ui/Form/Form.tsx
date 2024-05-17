@@ -1,4 +1,3 @@
-import { zodResolver } from '@hookform/resolvers/zod';
 import type * as LabelPrimitive from '@radix-ui/react-label';
 import { Slot } from '@radix-ui/react-slot';
 import * as React from 'react';
@@ -8,16 +7,13 @@ import {
   type FieldPath,
   type FieldValues,
   FormProvider,
-  type SubmitHandler,
-  useForm,
   useFormContext,
-  type UseFormProps,
-  type UseFormReturn,
 } from 'react-hook-form';
-import { type z, type ZodType } from 'zod';
 
 import { Label } from '@/components/ui/Label';
 import { cn } from '@/utils/cn';
+
+const Form = FormProvider;
 
 type FormFieldContextValue<
   TFieldValues extends FieldValues = FieldValues,
@@ -168,40 +164,6 @@ const FormMessage = React.forwardRef<
   );
 });
 FormMessage.displayName = 'FormMessage';
-
-type FormProps<TFormValues extends FieldValues, Schema> = {
-  onSubmit: SubmitHandler<TFormValues>;
-  schema: Schema;
-  className?: string;
-  children: (methods: UseFormReturn<TFormValues>) => React.ReactNode;
-  options?: UseFormProps<TFormValues>;
-  id?: string;
-};
-
-function Form<
-  Schema extends ZodType<any, any, any>,
-  TFormValues extends FieldValues = z.infer<Schema>,
->({
-  onSubmit,
-  children,
-  className,
-  options,
-  id,
-  schema,
-}: FormProps<TFormValues, Schema>) {
-  const form = useForm({ ...options, resolver: zodResolver(schema) });
-  return (
-    <FormProvider {...form}>
-      <form
-        className={cn('space-y-6', className)}
-        id={id}
-        onSubmit={form.handleSubmit(onSubmit)}
-      >
-        {children(form)}
-      </form>
-    </FormProvider>
-  );
-}
 
 export {
   Form,

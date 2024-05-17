@@ -1,4 +1,6 @@
 import {
+  ActivityIcon,
+  ArrowUpRightIcon,
   CheckIcon,
   ChevronDownIcon,
   ChevronLeftIcon,
@@ -7,23 +9,35 @@ import {
   CircleAlertIcon,
   CircleCheckIcon,
   CircleIcon,
+  CircleUserIcon,
   CircleXIcon,
+  CreditCardIcon,
+  DollarSignIcon,
+  FolderIcon,
   GripVerticalIcon,
   HomeIcon,
   InfoIcon,
+  MenuIcon,
   MoonIcon,
   MoreHorizontalIcon,
+  Package2Icon,
+  PanelLeftIcon,
   SearchIcon,
   SunIcon,
+  User2Icon,
+  UsersIcon,
   XIcon,
 } from 'lucide-react';
 import { useId } from 'react';
 
 import { cn } from '@/utils/cn';
 
+export { type LucideIcon } from 'lucide-react';
+
 type IconProps = React.HTMLAttributes<SVGElement>;
 
 export const Icons = {
+  Activity: ActivityIcon,
   Apple: ({ className, ...props }: IconProps) => (
     <svg
       className={cn('size-6', className)}
@@ -48,6 +62,7 @@ export const Icons = {
       <path d="M13.966 22.624l-1.69-4.281H8.122l3.892-9.144 5.662 13.425zM8.884 1.376H0v21.248zm15.116 0h-8.884L24 22.624Z" />
     </svg>
   ),
+  ArrowUpRight: ArrowUpRightIcon,
   Check: CheckIcon,
   ChevronDown: ChevronDownIcon,
   ChevronLeft: ChevronLeftIcon,
@@ -56,7 +71,11 @@ export const Icons = {
   Circle: CircleIcon,
   CircleAlert: CircleAlertIcon,
   CircleCheck: CircleCheckIcon,
+  CircleUser: CircleUserIcon,
   CircleX: CircleXIcon,
+  CreditCard: CreditCardIcon,
+  DollarSign: DollarSignIcon,
+  Folder: FolderIcon,
   GitHub: ({ className, ...props }: IconProps) => (
     <svg
       className={cn('size-6', className)}
@@ -117,6 +136,7 @@ export const Icons = {
       />
     </svg>
   ),
+  Menu: MenuIcon,
   Moon: MoonIcon,
   MoreHorizontal: MoreHorizontalIcon,
   Npm: ({ className, ...props }: IconProps) => (
@@ -127,6 +147,8 @@ export const Icons = {
       />
     </svg>
   ),
+  Package2: Package2Icon,
+  PanelLeft: PanelLeftIcon,
   Paypal: ({ className, ...props }: IconProps) => (
     <svg
       className={cn('size-6', className)}
@@ -1083,6 +1105,8 @@ export const Icons = {
       <path d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.137 519.284H714.163ZM569.165 687.828L521.697 619.934L144.011 79.6944H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.854V687.828Z" />
     </svg>
   ),
+  User2: User2Icon,
+  Users: UsersIcon,
   X: XIcon,
   Yarn: ({ className, ...props }: IconProps) => (
     <svg className={cn('size-6', className)} viewBox="0 0 24 24" {...props}>
