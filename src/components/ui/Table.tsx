@@ -137,7 +137,7 @@ export function Table<Entry extends BaseEntity>({
   if (!data?.length) {
     return (
       <div className="flex h-80 flex-col items-center justify-center">
-        <Icons.ArchiveX className="size-16" />
+        <Icons.ArchiveX className="size-10" />
         <h4>No Entries Found</h4>
       </div>
     );

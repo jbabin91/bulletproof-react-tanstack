@@ -25,6 +25,7 @@ import {
   PanelLeftIcon,
   SearchIcon,
   SunIcon,
+  TrashIcon,
   User2Icon,
   UsersIcon,
   XIcon,
@@ -1095,6 +1096,7 @@ export const Icons = {
       </svg>
     );
   },
+  Trash: TrashIcon,
   Twitter: ({ className, ...props }: IconProps) => (
     <svg
       className={cn('size-6', className)}

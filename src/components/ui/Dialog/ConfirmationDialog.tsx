@@ -1,11 +1,9 @@
-import { useEffect, useRef } from 'react';
-
 import { Icons } from '@/components/Icons';
-import { useDisclosure } from '@/hooks/useDisclosure';
 
 import { Button } from '../Button';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -30,28 +28,9 @@ export function ConfirmationDialog({
   body = '',
   cancelButtonText = 'Cancel',
   icon = 'danger',
-  isDone = false,
 }: ConfirmationDialogProps) {
-  const { close, open, isOpen } = useDisclosure();
-  const cancelButtonRef = useRef(null);
-
-  useEffect(() => {
-    if (isDone) {
-      close();
-    }
-  }, [close, isDone]);
-
   return (
-    <Dialog
-      open={isOpen}
-      onOpenChange={(isOpen) => {
-        if (isOpen) {
-          open();
-        } else {
-          close();
-        }
-      }}
-    >
+    <Dialog>
       <DialogTrigger asChild>{triggerButton}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader className="flex">
@@ -72,9 +51,9 @@ export function ConfirmationDialog({
         <div>{body ? <div className="mt-2">{body}</div> : null}</div>
         <DialogFooter>
           {confirmButton}
-          <Button ref={cancelButtonRef} variant="outline" onClick={close}>
-            {cancelButtonText}
-          </Button>
+          <DialogClose asChild>
+            <Button variant="outline">{cancelButtonText}</Button>
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>

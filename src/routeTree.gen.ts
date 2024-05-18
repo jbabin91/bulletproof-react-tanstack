@@ -21,6 +21,7 @@ import { Route as AppUsersImport } from './routes/_app/users'
 import { Route as AppProfileImport } from './routes/_app/profile'
 import { Route as AppDiscussionsImport } from './routes/_app/discussions'
 import { Route as AppDashboardImport } from './routes/_app/dashboard'
+import { Route as AppDiscussionsIndexImport } from './routes/_app/discussions.index'
 import { Route as AppDiscussionsDiscussionIdImport } from './routes/_app/discussions.$discussionId'
 
 // Create/Update Routes
@@ -73,6 +74,11 @@ const AppDiscussionsRoute = AppDiscussionsImport.update({
 const AppDashboardRoute = AppDashboardImport.update({
   path: '/dashboard',
   getParentRoute: () => AppRouteRoute,
+} as any)
+
+const AppDiscussionsIndexRoute = AppDiscussionsIndexImport.update({
+  path: '/',
+  getParentRoute: () => AppDiscussionsRoute,
 } as any)
 
 const AppDiscussionsDiscussionIdRoute = AppDiscussionsDiscussionIdImport.update(
@@ -163,6 +169,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDiscussionsDiscussionIdImport
       parentRoute: typeof AppDiscussionsImport
     }
+    '/_app/discussions/': {
+      id: '/_app/discussions/'
+      path: '/'
+      fullPath: '/discussions/'
+      preLoaderRoute: typeof AppDiscussionsIndexImport
+      parentRoute: typeof AppDiscussionsImport
+    }
   }
 }
 
@@ -174,6 +187,7 @@ export const routeTree = rootRoute.addChildren({
     AppDashboardRoute,
     AppDiscussionsRoute: AppDiscussionsRoute.addChildren({
       AppDiscussionsDiscussionIdRoute,
+      AppDiscussionsIndexRoute,
     }),
     AppProfileRoute,
     AppUsersRoute,

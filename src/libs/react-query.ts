@@ -1,5 +1,6 @@
 import {
   type DefaultOptions,
+  QueryClient,
   type UseMutationOptions,
 } from '@tanstack/react-query';
 
@@ -10,6 +11,12 @@ export const queryConfig = {
     retry: false,
   },
 } satisfies DefaultOptions;
+
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    ...queryConfig,
+  },
+});
 
 export type ApiFnReturnType<FnType extends (...args: any) => Promise<any>> =
   Awaited<ReturnType<FnType>>;
