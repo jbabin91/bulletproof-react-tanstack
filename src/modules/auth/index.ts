@@ -6,6 +6,7 @@ export * from './api/register';
 
 // Libs
 export * from './libs/auth';
+export * from './libs/authorization';
 
 // Types
 export * from './types';

@@ -3,6 +3,7 @@ import {
   Link,
   Outlet,
   redirect,
+  useRouter,
 } from '@tanstack/react-router';
 import type React from 'react';
 
@@ -20,7 +21,7 @@ import {
   SheetContent,
   SheetTrigger,
 } from '@/components/ui';
-import { Roles, useAuthorization } from '@/modules/auth/libs/authorization';
+import { Roles, useAuthorization } from '@/modules/auth';
 
 export const Route = createFileRoute('/_app')({
   beforeLoad: ({ context, location }) => {
@@ -57,11 +58,14 @@ type SideNavigationItem = {
 };
 
 function AppLayout() {
+  const router = useRouter();
   const navigate = Route.useNavigate();
   const { auth } = Route.useRouteContext({
     select: ({ auth }) => ({ auth }),
   });
-  const logout = auth.useLogout();
+  const logout = auth.useLogout({
+    onSettled: () => navigate({ to: '/login' }),
+  });
   const { checkAccess } = useAuthorization();
 
   const navigationLinks = [
@@ -154,7 +158,12 @@ function AppLayout() {
                 Profile
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => logout.mutate({})}>
+              <DropdownMenuItem
+                onClick={async () => {
+                  logout.mutate({});
+                  await router.invalidate();
+                }}
+              >
                 Logout
               </DropdownMenuItem>
             </DropdownMenuContent>

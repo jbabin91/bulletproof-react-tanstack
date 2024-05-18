@@ -6,23 +6,20 @@ import { type UserResponse } from '../types';
 
 export const registerInputSchema = z
   .object({
-    email: z.string().min(1, 'Required').email('Invalid email'),
+    email: z.string().min(1, 'Required'),
     firstName: z.string().min(1, 'Required'),
     lastName: z.string().min(1, 'Required'),
-    password: z
-      .string()
-      .min(1, 'Required')
-      .min(5, 'Must be at least 5 characters'),
+    password: z.string().min(1, 'Required'),
   })
   .and(
     z
       .object({
         teamId: z.string().min(1, 'Required'),
-        teamName: z.string().min(1, 'Required'),
+        teamName: z.string().optional(),
       })
       .or(
         z.object({
-          teamId: z.null().default(null),
+          teamId: z.string().optional(),
           teamName: z.string().min(1, 'Required'),
         }),
       ),

@@ -62,9 +62,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const { data: user } = useUser();
   const isAuthenticated = !!user;
 
-  // console.log('isAuthenticated', isAuthenticated);
-  // console.log('user', user);
-
   const value = useMemo(
     () => ({
       isAuthenticated,

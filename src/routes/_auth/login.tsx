@@ -42,7 +42,9 @@ function Login() {
   });
   const search = Route.useSearch();
   const navigate = Route.useNavigate();
-  const login = auth.useLogin();
+  const login = auth.useLogin({
+    onSettled: () => navigate({ to: search.redirect ?? fallback }),
+  });
 
   useLayoutEffect(() => {
     if (isAuthenticated && search.redirect) {
@@ -59,10 +61,8 @@ function Login() {
   });
 
   async function handleLogin(values: z.infer<typeof loginInputSchema>) {
-    console.log(values);
     login.mutate(values);
     await router.invalidate();
-    await navigate({ to: search.redirect ?? fallback });
   }
 
   return (

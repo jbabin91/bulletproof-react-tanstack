@@ -15,7 +15,7 @@ export const updateProfileInputSchema = z.object({
 export type UpdateProfileInput = z.infer<typeof updateProfileInputSchema>;
 
 export function updateProfile({ data }: { data: UpdateProfileInput }) {
-  return api.patch('/profile', data);
+  return api.patch('/users/profile', data);
 }
 
 type UsesUpdateProfileOptions = {

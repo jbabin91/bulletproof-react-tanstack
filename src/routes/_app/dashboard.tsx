@@ -1,8 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 
 import { ContentLayout } from '@/components/layout';
-import { useUser } from '@/modules/auth';
-import { Roles } from '@/modules/auth/libs/authorization';
+import { Roles, useUser } from '@/modules/auth';
 
 export const Route = createFileRoute('/_app/dashboard')({
   component: Dashboard,

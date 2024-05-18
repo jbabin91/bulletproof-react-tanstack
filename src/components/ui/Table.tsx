@@ -1,8 +1,11 @@
 import * as React from 'react';
 
+import { type BaseEntity } from '@/types';
 import { cn } from '@/utils/cn';
 
-const Table = React.forwardRef<
+import { Icons } from '../Icons';
+
+const TableElement = React.forwardRef<
   HTMLTableElement,
   React.HTMLAttributes<HTMLTableElement>
 >(({ className, ...props }, ref) => (
@@ -14,7 +17,7 @@ const Table = React.forwardRef<
     />
   </div>
 ));
-Table.displayName = 'Table';
+TableElement.displayName = 'Table';
 
 const TableHeader = React.forwardRef<
   HTMLTableSectionElement,
@@ -106,12 +109,59 @@ const TableCaption = React.forwardRef<
 TableCaption.displayName = 'TableCaption';
 
 export {
-  Table,
   TableBody,
   TableCaption,
   TableCell,
+  TableElement,
   TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 };
+
+type TableColumn<Entry> = {
+  title: string;
+  field: keyof Entry;
+  Cell?({ entry }: { entry: Entry }): React.ReactElement;
+};
+
+export type TableProps<Entry> = {
+  data: Entry[];
+  columns: TableColumn<Entry>[];
+};
+
+export function Table<Entry extends BaseEntity>({
+  data,
+  columns,
+}: TableProps<Entry>) {
+  if (!data?.length) {
+    return (
+      <div className="flex h-80 flex-col items-center justify-center">
+        <Icons.ArchiveX className="size-16" />
+        <h4>No Entries Found</h4>
+      </div>
+    );
+  }
+  return (
+    <TableElement>
+      <TableHeader>
+        <TableRow>
+          {columns?.map((column, index) => (
+            <TableHead key={column.title + index}>{column.title}</TableHead>
+          ))}
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {data?.map((entry, entryIndex) => (
+          <TableRow key={entry?.id || entryIndex}>
+            {columns?.map(({ Cell, field, title }, columnIndex) => (
+              <TableCell key={title + columnIndex}>
+                {Cell ? <Cell entry={entry} /> : `${entry[field]}`}
+              </TableCell>
+            ))}
+          </TableRow>
+        ))}
+      </TableBody>
+    </TableElement>
+  );
+}

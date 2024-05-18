@@ -1,5 +1,6 @@
 import {
   ActivityIcon,
+  ArchiveXIcon,
   ArrowUpRightIcon,
   CheckIcon,
   ChevronDownIcon,
@@ -51,6 +52,7 @@ export const Icons = {
       />
     </svg>
   ),
+  ArchiveX: ArchiveXIcon,
   Aria: ({ className, ...props }: IconProps) => (
     <svg
       className={cn('size-6', className)}

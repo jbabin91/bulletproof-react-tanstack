@@ -47,7 +47,9 @@ function Register() {
   });
   const search = Route.useSearch();
   const navigate = Route.useNavigate();
-  const registering = auth.useRegister();
+  const registering = auth.useRegister({
+    onSettled: () => navigate({ to: search.redirect ?? fallback }),
+  });
   const [chooseTeam, setChooseTeam] = useState(false);
 
   const teamsQuery = useTeams({
@@ -68,18 +70,14 @@ function Register() {
       firstName: '',
       lastName: '',
       password: '',
-      teamId: '',
-      teamName: '',
     },
     resolver: zodResolver(registerInputSchema),
     shouldUnregister: true,
   });
 
   async function handleRegister(values: z.infer<typeof registerInputSchema>) {
-    console.log(values);
     registering.mutate(values);
     await router.invalidate();
-    await navigate({ to: search.redirect ?? fallback });
   }
 
   return (
@@ -157,8 +155,6 @@ function Register() {
                   id="choose-team"
                   onCheckedChange={(value) => {
                     setChooseTeam(value);
-                    form.setValue('teamId', '');
-                    form.setValue('teamName', '');
                   }}
                 />
                 <Label htmlFor="choose-team">Join Existing Team</Label>
