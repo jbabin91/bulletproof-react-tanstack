@@ -16,6 +16,11 @@ node_modules
 # Testing
 coverage
 
+# Playwright
+playwright-report
+test-results
+e2e/.auth
+
 # Turbo
 .turbo
 
@@ -28,11 +33,6 @@ out/
 build
 dist
 dist-ssr
-
-# Debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 
 # Misc
 .DS_Store
@@ -53,10 +53,9 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+*storybook.log
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
 !.vscode/settings.json
-
-*storybook.log

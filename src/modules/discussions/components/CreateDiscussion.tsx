@@ -6,7 +6,6 @@ import { type z } from 'zod';
 import {
   Button,
   Dialog,
-  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -21,6 +20,7 @@ import {
   Input,
   Textarea,
 } from '@/components/ui';
+import { useDisclosure } from '@/hooks/useDisclosure';
 import { Authorization, Roles } from '@/modules/auth';
 
 import {
@@ -29,6 +29,8 @@ import {
 } from '../api/create-discussion';
 
 export function CreateDiscussion() {
+  const { close, open, isOpen } = useDisclosure();
+
   const createDiscussion = useCreateDiscussion({
     mutationConfig: {
       onSuccess: () => {
@@ -51,7 +53,16 @@ export function CreateDiscussion() {
 
   return (
     <Authorization allowedRoles={[Roles.Admin]}>
-      <Dialog>
+      <Dialog
+        open={isOpen}
+        onOpenChange={(isOpen) => {
+          if (isOpen) {
+            open();
+          } else {
+            close();
+          }
+        }}
+      >
         <DialogTrigger asChild>
           <Button variant="outline">Create Discussion</Button>
         </DialogTrigger>
@@ -90,9 +101,9 @@ export function CreateDiscussion() {
                 />
               </div>
               <DialogFooter>
-                <DialogClose asChild>
-                  <Button type="submit">Submit</Button>
-                </DialogClose>
+                <Button type="submit" onClick={() => close()}>
+                  Submit
+                </Button>
               </DialogFooter>
             </form>
           </Form>

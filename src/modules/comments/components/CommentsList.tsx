@@ -29,6 +29,7 @@ export function CommentsList({ discussionId }: { discussionId: string }) {
         role="list"
       >
         <Icons.ArchiveX className="size-10" />
+        <h4 className="text-lg font-semibold">No Comments Found</h4>
       </Card>
     );
   }

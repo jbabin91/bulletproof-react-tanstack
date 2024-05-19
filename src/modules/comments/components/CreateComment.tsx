@@ -16,6 +16,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
   Textarea,
 } from '@/components/ui';
@@ -31,7 +32,7 @@ export function CreateComment({ discussionId }: { discussionId: string }) {
     discussionId,
     mutationConfig: {
       onSuccess: () => {
-        toast.success('Discussion Created');
+        toast.success('Comment Created');
       },
     },
   });
@@ -69,6 +70,7 @@ export function CreateComment({ discussionId }: { discussionId: string }) {
                   name="body"
                   render={({ field }) => (
                     <FormItem>
+                      <FormLabel className="sr-only">Body</FormLabel>
                       <FormControl>
                         <Textarea className="resize-none" {...field} />
                       </FormControl>

@@ -6,7 +6,12 @@ module.exports = {
     'prettier',
     'plugin:storybook/recommended',
   ],
-  ignorePatterns: ['dist', '*.gen.ts', 'mockServiceWorker.js'],
+  ignorePatterns: [
+    'dist',
+    '*.gen.ts',
+    'mockServiceWorker.js',
+    'playwright-report',
+  ],
   overrides: [
     {
       extends: [
@@ -18,7 +23,12 @@ module.exports = {
       parser: '@typescript-eslint/parser',
       parserOptions: {
         ecmaVersion: 'latest',
-        project: ['./tsconfig.json', './tsconfig.node.json'],
+        project: [
+          './tsconfig.json',
+          './tsconfig.app.json',
+          './tsconfig.e2e.json',
+          './tsconfig.spec.json',
+        ],
         sourceType: 'module',
         tsconfigRootDir: __dirname,
       },
@@ -82,8 +92,15 @@ module.exports = {
         'plugin:jest-dom/recommended',
         'plugin:vitest/legacy-recommended',
       ],
-      files: ['*.js', '*.jsx', '*.ts', '*.tsx'],
+      files: ['src/**/*.js', 'src/**/*.jsx', 'src/**/*.ts', 'src/**/*.tsx'],
       rules: {},
+    },
+    {
+      extends: ['plugin:playwright/recommended'],
+      files: ['**/e2e/**/*.ts', '**/e2e/**/*.tsx'],
+      rules: {
+        '@typescript-eslint/await-thenable': 'off',
+      },
     },
   ],
   plugins: ['import', 'simple-import-sort', 'sort-keys-fix'],

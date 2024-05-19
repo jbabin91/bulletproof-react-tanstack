@@ -148,7 +148,7 @@ function AppLayout() {
             <DropdownMenuTrigger asChild>
               <Button className="rounded-full" size="icon" variant="secondary">
                 <Icons.CircleUser className="size-5" />
-                <span className="sr-only">Toggle user menu</span>
+                <span className="sr-only">Open user menu</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
