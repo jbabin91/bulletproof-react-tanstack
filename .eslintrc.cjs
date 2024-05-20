@@ -3,8 +3,8 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:unicorn/recommended',
-    'prettier',
     'plugin:storybook/recommended',
+    'prettier',
   ],
   ignorePatterns: [
     'dist',
