@@ -1,10 +1,17 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
+import '@/styles/globals.css';
 
-createRoot(document.getElementById('root')!).render(
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+
+import App from '@/App.tsx';
+import { TailwindIndicator } from '@/components/utils';
+import { Providers } from '@/providers';
+
+createRoot(document.querySelector('#app')!).render(
   <StrictMode>
-    <App />
+    <Providers>
+      <App />
+      <TailwindIndicator />
+    </Providers>
   </StrictMode>,
-)
+);
