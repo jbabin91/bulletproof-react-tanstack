@@ -1,8 +1,12 @@
 {
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "editor.formatOnSave": true,
   "eslint.useFlatConfig": true,
   "eslint.workingDirectories": [{ "mode": "auto" }],
-  "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
+  "typescript.preferences.autoImportFileExcludePatterns": [],
   "typescript.preferences.importModuleSpecifier": "non-relative",
-  "typescript.preferences.autoImportFileExcludePatterns": []
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
