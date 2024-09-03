@@ -79,6 +79,7 @@
     "@eslint/js": "^9.9.1",
     "@mswjs/data": "^0.16.1",
     "@mswjs/http-middleware": "^0.10.1",
+    "@ngneat/falso": "^7.2.0",
     "@tanstack/react-query-devtools": "^5.54.1",
     "@tanstack/router-devtools": "^1.52.5",
     "@tanstack/router-plugin": "^1.52.0",
