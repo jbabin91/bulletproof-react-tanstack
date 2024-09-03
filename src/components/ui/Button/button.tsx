@@ -36,7 +36,7 @@ const buttonVariants = cva(
 
 export type ButtonProps = {
   asChild?: boolean;
-  isLoading?: boolean;
+  loading?: boolean;
   icon?: React.ReactNode;
 } & React.ButtonHTMLAttributes<HTMLButtonElement> &
   VariantProps<typeof buttonVariants>;
@@ -49,7 +49,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       size,
       asChild = false,
       children,
-      isLoading,
+      disabled,
+      loading = false,
       icon,
       ...props
     },
@@ -60,11 +61,12 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <Comp
         ref={ref}
         className={cn(buttonVariants({ className, size, variant }))}
+        disabled={disabled ?? loading}
         {...props}
       >
-        {isLoading ? <Spinner className="text-center" size="sm" /> : null}
-        {!isLoading && icon ? <span className="mr-2">{icon}</span> : null}
-        <span className="mx-2">{children}</span>
+        {loading && <Spinner className="mr-2 text-current" size="sm" />}
+        {!loading && icon && <span className="mr-2">{icon}</span>}
+        {children}
       </Comp>
     );
   },
