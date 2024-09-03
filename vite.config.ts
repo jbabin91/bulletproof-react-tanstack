@@ -9,8 +9,9 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 export default defineConfig({
   base: './',
   build: {
+    chunkSizeWarningLimit: 1000,
     rollupOptions: {
-      external: ['fsevents'],
+      external: ['fsevents', 'node:fs/promises'],
       output: {
         assetFileNames: 'assets/[name].[hash].[ext]',
         chunkFileNames: 'assets/[name].[hash].js',
@@ -18,6 +19,8 @@ export default defineConfig({
         experimentalMinChunkSize: 3500,
         manualChunks: {
           lucide: ['lucide-react'],
+          msw: ['@mswjs/data'],
+          nanoid: ['nanoid'],
           radix: [
             '@radix-ui/react-accordion',
             '@radix-ui/react-alert-dialog',
@@ -52,7 +55,7 @@ export default defineConfig({
       },
     },
   },
-  optimizeDeps: { exclude: ['fsevents'] },
+  optimizeDeps: { exclude: ['fsevents', 'node:fs/promises'] },
   plugins: [
     react(),
     TanStackRouterVite({

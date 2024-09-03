@@ -5,6 +5,21 @@ export const enableMocking = async () => {
     const { worker } = await import('./browser');
     const { initializeDb } = await import('./db');
     await initializeDb();
-    return worker.start();
+    return worker.start({
+      onUnhandledRequest(req, print) {
+        const url = new URL(req.url);
+        const excludedRoutes = ['node_modules', 'assets', 'src', 'vite.svg'];
+
+        const isExcluded = excludedRoutes.some((route) => {
+          return url.pathname.includes(route) || url.host.includes(route);
+        });
+
+        if (isExcluded) {
+          return;
+        }
+
+        print.warning();
+      },
+    });
   }
 };
