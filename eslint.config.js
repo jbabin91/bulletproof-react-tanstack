@@ -7,7 +7,9 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import sortKeysFix from 'eslint-plugin-sort-keys-fix';
 import tailwindcss from 'eslint-plugin-tailwindcss';
+import testingLibrary from 'eslint-plugin-testing-library';
 import unicorn from 'eslint-plugin-unicorn';
+import vitest from 'eslint-plugin-vitest';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
@@ -129,6 +131,17 @@ export default tseslint.config(
       'react/prop-types': 'off',
       'tailwindcss/no-custom-classname': 'off',
     },
+  },
+  {
+    files: ['**/*.test.{js,jsx,ts,tsx}'],
+    plugins: {
+      'testing-library': testingLibrary,
+      vitest,
+    },
+    rules: {
+      ...vitest.configs.recommended.rules,
+    },
+    ...testingLibrary.configs['flat/react'],
   },
   eslintConfigPrettier,
 );
