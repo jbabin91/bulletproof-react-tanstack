@@ -63,7 +63,7 @@
     @apply border-border;
   }
   body {
-    @apply m-0 bg-background text-foreground place-items-center flex min-h-screen min-w-80;
+    @apply bg-background text-foreground min-h-screen;
   }
 
   :root {
@@ -79,13 +79,6 @@
   code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
       monospace;
-  }
-
-  #app {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 2rem;
-    text-align: center;
   }
 
   .logo {
