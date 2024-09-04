@@ -20,6 +20,7 @@ export * from './Form';
 export * from './HoverCard';
 export * from './Input';
 export * from './Label';
+export * from './Link';
 export * from './Menubar';
 export * from './NavigationMenu';
 export * from './Pagination';
